@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<h1 class="text-center mt-5">Registrarse</h1>
+
+<br />
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger text-center mt-3">@ViewBag.Error</div>
+}
+
+
+<div class="container mt-5">
+    <form class="border p-4 rounded shadow-sm" method="post" action="/usuarios/registrarse">
+        
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre" name="nombre" value="@ViewBag.nombre" />
+        </div>
+
+        <div class="mb-3">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="apellido" placeholder="Ingrese apellido" name="apellido" value="@ViewBag.apellido" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Ingrese email" name="email" value="@ViewBag.email" />
+        </div>
+
+        <div class="mb-3">
+            <label for="contrasenia" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" placeholder="Ingrese contraseña" name="contrasenia" value="@ViewBag.contrasenia" />
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Registrarse</button>
+    </form>
+</div>
+

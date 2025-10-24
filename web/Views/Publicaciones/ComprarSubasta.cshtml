@@ -1,0 +1,102 @@
+﻿@using Dominio;
+@{
+    Publicacion p = ViewBag.Publicacion;
+    ViewData["Title"] = "ComprarSubasta";
+
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success alert-dismissible fade show my-4" role="alert">
+        @ViewBag.Exito
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show my-4" role="alert">
+        @ViewBag.Error
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h1>Detalle de Publicacion @p.Id</h1>
+
+<br />
+
+@if (ViewBag.Publicacion == null)
+{
+    <div class="alert alert-danger">La publicacion no se ha encontrado</div>
+}
+else
+{
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (p.Articulos.Count == 0)
+            {
+                <tr>
+                    <td class="text-center" colspan="4">No se encontraron artículos</td>
+                </tr>
+            }
+
+            @foreach (Articulo a in p.Articulos)
+            {
+                <tr class="align-middle">
+                    <td>@a.Nombre</td>
+                    <td>@a.Categoria</td>
+                    <td>$@a.Precio</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 class="mb-5">@p.Nombre</h2>
+
+
+    <div class="col-4">
+ 
+        <form method="post" action="/Publicaciones/ComprarSubasta/@p.Id">
+
+            <label class="form-label" for="txtUltimaOferta">Oferta más alta:</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-dollar-sign">$</i>
+                </span>
+
+                <input disabled class="form-control" readonly type="number" value="@p.CalcularPrecio()" />
+            </div>
+
+            <br />
+
+            <label class="form-label" for="txtUltimaOferta">Ofertar:</label>
+            <div class="input-group">
+                <span class="input-group-text">
+                    <i class="fa-solid fa-dollar-sign">$</i>
+                </span>
+
+                @{
+                    double ofertaMin = p.CalcularPrecio() + 1;
+                }
+
+                <input required class="form-control" id="txtUltimaOferta" type="number" name="monto" min="@ofertaMin" placeholder="Ingresar una oferta" />
+            </div>
+
+            <input hidden type="number" name="idSubasta" value="@p.Id" />
+            <input hidden type="number" name="idCliente" value="@Context.Session.GetInt32("Id")" />
+
+            <input class="btn btn-outline-success form-control-lg mt-4" type="submit" value="Realizar oferta" />
+
+        </form>
+    </div>
+
+}

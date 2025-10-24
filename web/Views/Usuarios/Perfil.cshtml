@@ -1,0 +1,33 @@
+﻿@using Dominio;
+@{
+    Cliente c = ViewBag.cliente;
+    ViewData["Title"] = "Perfil";
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger text-center">@ViewBag.Error</div>
+}
+
+@if (ViewBag.Exito != null)
+{
+    <div class="alert alert-success text-center">@ViewBag.Exito</div>
+}
+
+<h1 class="text-center my-4">Perfil</h1>
+
+<h2 class="text-primary">Bienvenido @c.Nombre</h2>
+
+<div class="alert alert-info">Su saldo actual es de $ @c.Saldo</div>
+
+<form method="post" action="/usuarios/perfil" class="border p-4 rounded shadow-lg">
+    <div class="mb-3">
+        <label class="form-label">Ingrese para Recargar:</label>
+        <input type="number" class="form-control" placeholder="Ingresar recarga" name="saldo" />
+    </div>
+    <button type="submit" class="btn btn-success w-100">Recargar</button>
+</form>
+
+
+
+

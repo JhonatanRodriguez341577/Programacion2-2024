@@ -1,0 +1,59 @@
+﻿@using Dominio;
+
+@{
+    ViewData["Title"] = "Publicacion";
+}
+
+
+<h1 class="text-center my-4">Lista de Publicaciones</h1>
+
+@if (ViewBag.Listado == null || ViewBag.Listado.Count == 0)
+{
+    <div class="alert alert-danger text-center" role="alert">
+        No hay agencia en el sistema
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Publicacion p in ViewBag.Listado)
+                {
+                    <tr>
+                        <td>@p.Nombre</td>
+                        <td class="text-center">@p.EstadoPublicacion</td>
+                        <td class="text-end">$@p.CalcularPrecio()</td>
+                        <td class="text-center">
+
+                            @if (p.esSubasta())
+                            {
+                            <a href="/Publicaciones/ComprarSubasta?id=@p.Id" class="btn btn-warning btn-sm">Subastar</a>
+                            }
+                            @if(p.esVenta())
+                            {
+                                if (p.esOfertaRelampago())
+                                {
+                                    <a href="/Publicaciones/ComprarVenta?id=@p.Id" class="btn btn-success btn-sm">Comprar Oferta Relámpago</a>
+                                }
+                                else
+                                {
+                                    <a href="/Publicaciones/ComprarVenta?id=@p.Id" class="btn btn-primary btn-sm">Comprar Oferta</a>
+                                }
+                            }
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
